@@ -1,6 +1,46 @@
 # finance-assistant
 
 
+# AI Engineer Assignment 
+
+## 1. Memory
+
+After Session 1, I stored only durable information that would still matter in future conversations. This included the user’s ₹30,000 house-fund commitment, the food delivery reduction goal, the actual food delivery spending amount, the reminder details, and a short summary of the user’s concern.
+
+I deliberately did not store temporary financial data like current account balance, upcoming bills, or transaction lists. Those values can change between sessions, so I treated them as live data that should always come from tools instead of memory. My goal was to keep memory focused on long-term intent and commitments rather than stale numbers.
+
+---
+
+## 2. Tools vs. LLM
+
+One decision I gave to the LLM was determining how to respond conversationally to the user’s purchase question in Session 2. The LLM handled the judgment part: connecting the MacBook purchase with the user’s previously stated savings goal and deciding how cautious the recommendation should sound.
+
+One decision I kept in code was memory persistence and tool execution. SQLite storage, memory reads/writes, and tool dispatching are deterministic tasks, so I implemented them directly in Python instead of relying on the LLM. I also avoided using the LLM for arithmetic or data retrieval because those are more reliable when handled programmatically.
+
+---
+
+## 3. AI Usage
+
+I used AI tools mainly for brainstorming prompt structures, reviewing edge cases, and improving code organization. For example, AI helped me refine the memory extraction prompt and suggested a cleaner structure for the agent loop.
+
+One suggestion I rejected was storing the full conversation history as memory. I felt that would make retrieval noisy and blur the distinction between memory and context. Instead, I chose to store only structured, durable facts that were actually useful across sessions.
+
+---
+
+## 4. If I Had One More Week
+
+If I had another week, I would redesign the memory system. Right now, memory is stored as simple key-value pairs in SQLite, which works for this assignment but does not scale well for longer user histories.
+
+I would move toward a layered memory design:
+
+* short-term conversational memory,
+* long-term user preferences/goals,
+* and event-based financial memories.
+
+I would also add memory scoring or retrieval ranking so the agent could decide which memories are most relevant to the current conversation instead of loading everything every time.
+
+
+
 
 (finance-assistant) C:\Users\Lenovo\Work\finance-assistant>python agents.py 1
   SESSION 1  —  2025-11-03
@@ -53,5 +93,3 @@ Assistant: You have ₹128,000 in your checking account. Your upcoming bills inc
 Considering your current balance and upcoming bills, you can afford the ₹80,000 MacBook. However, you might want to ensure you have enough for the upcoming bills and other expenses.
 
 ------------------------------------------------------------
-
-(finance-assistant) C:\Users\Lenovo\Work\finance-assistant>
